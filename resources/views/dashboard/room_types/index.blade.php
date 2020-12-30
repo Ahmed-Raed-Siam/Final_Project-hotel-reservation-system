@@ -1,7 +1,7 @@
 @extends('dashboard.layout.master')
 
 @section('page-title')
-    {{ $page_title=ucwords('rooms types table') }}
+    {{ $page_title=ucwords('rooms type table') }}
 
 @endsection
 @section('content')

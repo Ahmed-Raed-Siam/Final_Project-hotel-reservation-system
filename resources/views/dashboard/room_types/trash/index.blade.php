@@ -1,24 +1,12 @@
 @extends('dashboard.layout.master')
 
 @section('page-title')
-    {{ $page_title=ucwords('users trash table') }}
+    {{ $page_title=ucwords('rooms type trash table') }}
 
 @endsection
-@csrf
 @section('content')
-    @csrf
-    {{ csrf_field() }}
-    @if( session('status') )
-        <div class="alert {{ session('status')['alert_status'] }} alert-dismissible fade show" role="alert">
-            <strong>{{ session('status')['msg'] }}</strong>
-            <p>
-                {!! session('status')['pref'] !!}
-            </p>
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-    @endif
+    {{--Update Status--}}
+    @include('dashboard.status.status')
     <div class="card p-2">
         <div class="card-header">
             <h3 class="card-title">{{ ucfirst($page_title) }}</h3>
@@ -41,69 +29,62 @@
                         #
                     </th>
                     <th style="width: 20%">
-                        Username
+                        Room name
                     </th>
                     <th style="width: 30%">
-                        Email Address
-                        <small>
-                            Email Verified at
-                        </small>
+                        Description
                     </th>
                     <th>
-                        Password
+                        Picture
                     </th>
-                    <th style="width: 10%" class="text-center">
-                        Remember Token
+                    <th style="width: 20%">
+                        <a class="btn btn-outline-primary m-auto d-flex text-center float-right"
+                           href="{{ route('dashboard.rooms.types.create') }}"
+                           data-toggle="tooltip" data-placement="top"
+                           title="ADD Room Type {{ $counter }}">
+                            <i class="fas fa-plus-square p-1"></i>
+                            Add Room Type
+                        </a>
                     </th>
                 </tr>
                 </thead>
                 <tbody>
-                @forelse ($users as $user)
+                @forelse ($rooms_type as $room_type)
                     <tr>
                         <td>
                             #{{ $counter++ }}
                         </td>
                         <td>
                             <a>
-                                {{ $user->name }}
+                                {{ $room_type->name }}
                             </a>
                             <br/>
                             <small>
-                                Created {{ $user->created_at }}
+                                Created {{ $room_type->created_at }}
                             </small>
                         </td>
                         <td>
                             <a>
-                                {{ $user->email }}
+                                {{ $room_type->description }}
                             </a>
-                            <br/>
-                            <small>
-                                Verified at {{ $user->email_verified_at }}
-                            </small>
                         </td>
                         <td>
-                            {{ $user->password }}
-                        </td>
-                        <td>
-                            {{ $user->remember_token }}
+                            <ul class="list-inline">
+                                <li class="list-inline-item">
+                                    <img alt="No Image" class="table-avatar" src="{{ asset('images/rooms_type/'.$room_type->picture) }}">
+                                </li>
+                            </ul>
                         </td>
                         <td class="project-actions text-right">
                             <a class="btn btn-primary btn-sm"
-                               href="{{ route('dashboard.users.trash.show',$user->id) }}"
+                               href="{{ route('dashboard.rooms.types.trash.show',$room_type->id) }}"
                                data-toggle="tooltip" data-placement="top"
-                               title="View User {{ $counter-1 }}">
+                               title="View Room Type {{ $counter-1 }}">
                                 <i class="fas fa-external-link-alt"></i>
                                 View
                             </a>
-{{--                            <a class="btn btn-info btn-sm"
-                               href="{{ route('dashboard.users.trash.restore',['user_id' => $user->id]) }}"
-                               data-toggle="tooltip" data-placement="top"
-                               title="Restore User {{ $counter-1 }}">
-                                <i class="fas fa-undo-alt"></i>
-                                Restore
-                            </a>--}}
                             <form class="btn btn-info btn-sm m-0"
-                                  action="{{ route('dashboard.users.trash.restore', ['user_id' => $user->id]) }}"
+                                  action="{{ route('dashboard.rooms.types.trash.restore', ['room_type' => $room_type->id]) }}"
                                   method="POST">
                                 @csrf
                                 @method('PATCH')
@@ -113,10 +94,10 @@
                                 <input name="restore" type="submit" class="btn btn-info btn-sm p-0"
                                        value="Restore"
                                        data-toggle="tooltip" data-placement="top"
-                                       title="Restore User {{ $counter-1 }}">
+                                       title="Restore Room Type {{ $counter-1 }}">
                             </form>
                             <form class="btn btn-danger btn-sm m-0"
-                                  action="{{ route('dashboard.users.trash.destroy', ['user_id' => $user->id]) }}"
+                                  action="{{ route('dashboard.rooms.types.trash.destroy', ['room_type' => $room_type->id]) }}"
                                   method="POST">
                                 @csrf
                                 @method('DELETE')
@@ -126,7 +107,7 @@
                                 <input name="delete" type="submit" class="btn btn-danger btn-sm p-0"
                                        value="Delete"
                                        data-toggle="tooltip" data-placement="top"
-                                       title="Delete User {{ $counter-1 }}">
+                                       title="Delete Room Type {{ $counter-1 }}">
                             </form>
                         </td>
                     </tr>
@@ -140,7 +121,7 @@
         <div class="card-footer w-100 m-0 pt-sm-2 pr-sm-2 pl-sm-1 bg-light">
             <div class="d-block p-2">
                 <ul class="pagination m-auto d-flex justify-content-center float-right ">
-                    {!! $users->links('vendor.pagination.custom') !!}
+                    {!! $rooms_type->links('vendor.pagination.custom') !!}
                 </ul>
             </div>
             <!-- /.card-footer -->

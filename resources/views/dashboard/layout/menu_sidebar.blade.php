@@ -72,9 +72,9 @@
                     </ul>
                 </li>
             <!--Rooms Types-->
-                <li class="nav-item {{ \Illuminate\Support\Facades\Request::is('dashboard/rooms_types/types','dashboard/rooms_types/types/create') ? 'menu-is-opening menu-open' : '' }}">
+                <li class="nav-item {{ \Illuminate\Support\Facades\Request::is('dashboard/rooms/types','dashboard/rooms/types/create') ? 'menu-is-opening menu-open' : '' }}">
                     <a href="{{ route('dashboard.rooms.types.index') }}"
-                       class="nav-link {{ \Illuminate\Support\Facades\Request::is('dashboard/rooms_types/types','dashboard/rooms_types/types/create') ? 'active' : '' }}">
+                       class="nav-link {{ \Illuminate\Support\Facades\Request::is('dashboard/rooms/types','dashboard/rooms/types/create') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-edit"></i>
                         <p>
                             Rooms Types
@@ -84,16 +84,23 @@
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
                             <a href="{{ route('dashboard.rooms.types.index') }}"
-                               class="nav-link {{ \Illuminate\Support\Facades\Request::is('dashboard/rooms_types/types') ? 'active' : '' }}">
+                               class="nav-link {{ \Illuminate\Support\Facades\Request::is('dashboard/rooms/types') ? 'active' : '' }}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Rooms Types Table</p>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a href="{{ route('dashboard.rooms.types.create') }}"
-                               class="nav-link {{ \Illuminate\Support\Facades\Request::is('dashboard/rooms_types/types/create') ? 'active' : '' }}">
+                               class="nav-link {{ \Illuminate\Support\Facades\Request::is('dashboard/rooms/types/create') ? 'active' : '' }}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Add Rooms Types</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('dashboard.rooms.types.trash.index') }}"
+                               class="nav-link {{ \Illuminate\Support\Facades\Request::is('dashboard/rooms/types/trash') ? 'active' : '' }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Trash</p>
                             </a>
                         </li>
                     </ul>

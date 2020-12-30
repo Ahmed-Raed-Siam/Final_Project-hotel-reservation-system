@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
 use App\Models\RoomType;
+use Exception;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -27,7 +28,9 @@ class RoomTypeController extends Controller
     public function index(): Response
     {
         // Get All Room Types
-        $rooms_type = DB::table('room_types')->whereNull('deleted_at')->paginate(10);
+//        $rooms_type = DB::table('room_types')->whereNull('deleted_at')->paginate(10);
+        // OR
+        $rooms_type = RoomType::withoutTrashed()->paginate(10);
 //        dd($room_types);
         return response()->view('dashboard.room_types.index', ['rooms_type' => $rooms_type]);
     }
@@ -39,9 +42,7 @@ class RoomTypeController extends Controller
      */
     public function create(): Response
     {
-        // Get all rooms type ;
-        $rooms_type = RoomType::all();
-        return response()->view('dashboard.room_types.create', ['rooms_type' => $rooms_type]);
+        return response()->view('dashboard.room_types.create');
     }
 
     /**
@@ -102,7 +103,7 @@ class RoomTypeController extends Controller
     public function show(int $id): Response
     {
         // Find Room Type ID
-        $room_type = RoomType::findOrFail($id);
+        $room_type = RoomType::withoutTrashed()->findOrFail($id);
         return response()->view('dashboard.room_types.show', ['room_type' => $room_type]);
     }
 
@@ -115,7 +116,7 @@ class RoomTypeController extends Controller
     public function edit(int $id): Response
     {
         // Find Room Type ID
-        $room_type = RoomType::findOrFail($id);
+        $room_type = RoomType::withoutTrashed()->findOrFail($id);
         return response()->view('dashboard.room_types.edit', ['room_type' => $room_type]);
     }
 
@@ -137,28 +138,28 @@ class RoomTypeController extends Controller
             'room_type_image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
         // Find Room Type ID
-        $room_type = RoomType::findOrFail($id);
+        $room_type = RoomType::withoutTrashed()->findOrFail($id);
         $room_type_id = $id;
-        $room_name = $inputs['name'];
-        $room_description = $inputs['description'];
-        $room_image = $request->file('room_type_image');
-        $room_image_filename = time() . '.' . $room_image->getClientOriginalExtension();
+        $room_type_name = $inputs['name'];
+        $room_type_description = $inputs['description'];
+        $room_type_image = $request->file('room_type_image');
+        $room_image_filename = time() . '.' . $room_type_image->getClientOriginalExtension();
 
         // Storage the image to
-        $room_image->move('images/rooms_type', $room_image_filename);
-        $room_type->name = $room_name;
-        $room_type->description = $room_description;
+        $room_type_image->move('images/rooms_type', $room_image_filename);
+        $room_type->name = $room_type_name;
+        $room_type->description = $room_type_description;
         $room_type->picture = $room_image_filename;
 
         // Update this Room Type to the system
         $room_type->save();
 
-        // Status for Updating this Room To The System!
+        // Status for Updating this Room Type To The System!
         $alert_status = 'alert-success';
         // Msg
         $msg = 'New Rooms Type Updated Successfully.';
         // Pref
-        $pref = "You Update $room_name As New Room Type To The System!<br>Her ID : {$room_type_id} ,Her Description : $room_description . ";
+        $pref = "You Update $room_type_name As New Room Type To The System!<br>Her ID : {$room_type_id} ,Her Description : $room_type_description . ";
         $status = ['alert_status' => $alert_status, 'msg' => $msg, 'pref' => $pref];
 
         return redirect()->route('dashboard.rooms.types.index')->with('status', $status);
@@ -166,32 +167,32 @@ class RoomTypeController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
      * @param int $id
      * @return RedirectResponse
+     * @throws Exception
      */
     public function destroy(int $id): RedirectResponse
     {
         // Find Room Type ID
-        $room_type = RoomType::findOrFail($id);
+        $room_type = RoomType::withoutTrashed()->findOrFail($id);
         $room_type_id = $id;
-        $room_name = $room_type->name;
-        $room_description = $room_type->description;
+        $room_type_name = $room_type->name;
+        $room_type_description = $room_type->description;
 
         // Status for Deleting This Room from The System!
         $alert_status = 'alert-warning';
         // Msg
-        $msg = "Delete Room Type $room_name Successfully.";
+        $msg = "Delete Room Type $room_type_name Successfully.";
         // Pref
-        $pref = "You Delete $room_name Room Type from The System!<br>Her ID : {$room_type_id} ,Her Description : $room_description . ";
+        $pref = "You Delete $room_type_name Room Type from The System!<br>Her ID : {$room_type_id} ,Her Description : $room_type_description . ";
         $status = ['alert_status' => $alert_status, 'msg' => $msg, 'pref' => $pref];
 
+        // Delete this room type and move it to trash
         $room_type->delete();
         // or
 //        $room->destory();
 
-        return redirect()->route('dashboard.room_types.index')->with('status', $status);
+        return redirect()->route('dashboard.rooms.types.index')->with('status', $status);
 
     }
 }

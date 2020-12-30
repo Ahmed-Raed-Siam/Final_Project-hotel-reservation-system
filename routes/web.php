@@ -4,6 +4,7 @@ use App\Http\Controllers\Dashboard\DashboardController;
 use App\Http\Controllers\Dashboard\RoleController;
 use App\Http\Controllers\Dashboard\RoomController;
 use App\Http\Controllers\Dashboard\RoomTypeController;
+use App\Http\Controllers\Dashboard\RoomTypeTrashController;
 use App\Http\Controllers\Dashboard\UserController;
 use App\Http\Controllers\Dashboard\UserRoleController;
 use App\Http\Controllers\Dashboard\UserTrashController;
@@ -44,6 +45,15 @@ Route::name('dashboard.')->middleware('auth')->prefix('dashboard')->group(functi
     Route::name('users')->resource('users/roles', UserRoleController::class)->parameters([
         'role' => 'user_role'
     ]);
+
+    Route::patch('rooms/types/trash/{room_type}', [RoomTypeTrashController::class, 'restore'])->name('rooms.types.trash.restore');
+
+    Route::name('rooms.types')->resource('rooms/types/trash', RoomTypeTrashController::class)->parameters([
+        'trash' => 'room_type'
+    ])->only([
+        'index', 'show', 'destroy'
+    ]);
+
     Route::resource('users', UserController::class);
     Route::resource('roles', RoleController::class);
     Route::name('rooms')->resource('rooms/types', RoomTypeController::class);
