@@ -1,5 +1,6 @@
 /node_modules
 /public/hot
+/public/images/rooms_type
 /public/storage
 /storage/*.key
 /vendor
