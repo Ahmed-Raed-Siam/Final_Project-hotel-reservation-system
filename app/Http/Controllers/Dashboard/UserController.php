@@ -73,10 +73,10 @@ class UserController extends Controller
 
         // Create instance from user model
         $user = new user();
-        $user_name = $input['name'];
+        $user_name = ucwords($input['name']);
         $email = $input['email'];
         $password = $input['password'];
-        $user->name = $user_name;
+        $user->name = strtolower($user_name);
         $user->email = $email;
 //        $user->password = $password;
 //        $user->password = Hash::make($password) . 'seeYou';
@@ -209,10 +209,10 @@ class UserController extends Controller
 
         // Find User ID
         $user = User::withoutTrashed()->findOrFail($id);
-        $user_name = $inputs['username'];
+        $user_name = ucwords($inputs['username']);
         $email = $inputs['email'];
         $password = $inputs['password'];
-        $user->name = $user_name;
+        $user->name = strtolower($user_name);
         $user->email = $email;
 //        $user->password = $password;
         $user->password = Hash::make($password);
@@ -270,7 +270,7 @@ class UserController extends Controller
         // Find User ID
         $user = User::findOrFail($id);
         $user_id = $id;
-        $user_name = $user->name;
+        $user_name = ucwords($user->name);
         $user_email = $user->email;
 
         // Status for Deleting This User from The System!

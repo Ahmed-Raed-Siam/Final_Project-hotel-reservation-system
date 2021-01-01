@@ -64,7 +64,7 @@
                         </td>
                         <td>
                             <a>
-                                {{ $role->name }}
+                                {{ ucfirst($role->name) }}
                             </a>
                         </td>
                         <td>

@@ -58,5 +58,6 @@ Route::name('dashboard.')->middleware('auth')->prefix('dashboard')->group(functi
     Route::resource('roles', RoleController::class);
     Route::name('rooms')->resource('rooms/types', RoomTypeController::class);
     Route::resource('rooms', RoomController::class);
+    Route::resource('bookings', \App\Http\Controllers\Dashboard\BookingController::class);
 
 });

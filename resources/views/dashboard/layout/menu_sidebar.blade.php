@@ -44,7 +44,7 @@
                         </p>
                     </a>
                 </li>
-            <!--Rooms-->
+                <!--Rooms-->
                 <li class="nav-item {{ \Illuminate\Support\Facades\Request::is('dashboard/rooms','dashboard/rooms/create') ? 'menu-is-opening menu-open' : '' }}">
                     <a href="{{ route('dashboard.rooms.index') }}"
                        class="nav-link {{ \Illuminate\Support\Facades\Request::is('dashboard/rooms','dashboard/rooms/create') ? 'active' : '' }}">
@@ -71,7 +71,7 @@
                         </li>
                     </ul>
                 </li>
-            <!--Rooms Types-->
+                <!--Rooms Types-->
                 <li class="nav-item {{ \Illuminate\Support\Facades\Request::is('dashboard/rooms/types','dashboard/rooms/types/create') ? 'menu-is-opening menu-open' : '' }}">
                     <a href="{{ route('dashboard.rooms.types.index') }}"
                        class="nav-link {{ \Illuminate\Support\Facades\Request::is('dashboard/rooms/types','dashboard/rooms/types/create') ? 'active' : '' }}">
@@ -103,6 +103,40 @@
                                 <p>Trash</p>
                             </a>
                         </li>
+                    </ul>
+                </li>
+                <!--Bookings-->
+                <li class="nav-item {{ \Illuminate\Support\Facades\Request::is('dashboard/bookings','dashboard/bookings/create') ? 'menu-is-opening menu-open' : '' }}">
+                    <a href="{{ route('dashboard.bookings.index') }}"
+                       class="nav-link {{ \Illuminate\Support\Facades\Request::is('dashboard/bookings','dashboard/bookings/create') ? 'active' : '' }}">
+                        <i class="nav-icon fas fa-building"></i>
+                        <p>
+                            Bookings
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{ route('dashboard.bookings.index') }}"
+                               class="nav-link {{ \Illuminate\Support\Facades\Request::is('dashboard/bookings') ? 'active' : '' }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Bookings Table</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('dashboard.bookings.create') }}"
+                               class="nav-link {{ \Illuminate\Support\Facades\Request::is('dashboard/bookings/create') ? 'active' : '' }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Add Bookings</p>
+                            </a>
+                        </li>
+{{--                        <li class="nav-item">--}}
+{{--                            <a href="{{ route('dashboard.bookings.trash.index') }}"--}}
+{{--                               class="nav-link {{ \Illuminate\Support\Facades\Request::is('dashboard/bookings/trash') ? 'active' : '' }}">--}}
+{{--                                <i class="far fa-circle nav-icon"></i>--}}
+{{--                                <p>Trash</p>--}}
+{{--                            </a>--}}
+{{--                        </li>--}}
                     </ul>
                 </li>
             <!--{{--Users--}}-->

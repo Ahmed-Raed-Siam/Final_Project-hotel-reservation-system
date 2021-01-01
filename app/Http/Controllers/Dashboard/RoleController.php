@@ -58,7 +58,7 @@ class RoleController extends Controller
         // Create instance from role model
         $role = new Role();
         $role_name = $input['role_name'];
-        $role->name = $role_name;
+        $role->name = strtolower($role_name);
         //print_r($input);
 //        dd($input);
 
@@ -125,7 +125,7 @@ class RoleController extends Controller
         // Role ID
         $role = Role::findOrFail($id);
         $role_name = $input['role_name'];
-        $role->name = $role_name;
+        $role->name = strtolower($role_name);
 
         // Insert in roles Table--Database
         $role->save();

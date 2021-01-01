@@ -1,9 +1,9 @@
 @extends('dashboard.layout.master')
 
 @section('page-title')
-    {{ $page_title=ucwords('users roles table') }}
+    {{ $page_title=ucwords('booking table') }}
+
 @endsection
-@csrf
 @section('content')
     {{--Update Status--}}
     @include('dashboard.status.status')
@@ -20,100 +20,117 @@
             </div>
         </div>
         <!-- /.card-header -->
+
         <div class="card-body p-0">
             <table class="table table-hover table-responsive table-striped projects">
                 <thead>
                 <tr>
-                    <th style="width: 5%">
-                        #
-                    </th>
-                    <th style="width: 10%">
-                        User name
-                    </th>
-                    <th style="width: 10%">
-                        User id
-                    </th>
-                    <th style="width: 10%">
-                        Role name
-                    </th>
-                    <th style="width: 20%">
-                        Created at
-                    </th>
-                    <th style="width: 8%">
-                        Updated at
-                    </th>
+                    <th style="width: 1%">#</th>
+                    <th style="width: 15%">Room</th>
+                    {{--<th style="width: 12%">Reservation for</th>--}}
+                    <th style="width: 12%">Booking For</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    <th>Reservation?</th>
+                    <th>Paid?</th>
+                    <th>Started</th>
+                    <th>Passed</th>
+                    <th>Created</th>
                     <th style="width: 20%">
                         <a class="btn btn-outline-primary m-auto d-flex text-center float-right"
-                           href="{{ route('dashboard.users.roles.create') }}"
+                           href="{{ route('dashboard.bookings.create') }}"
                            data-toggle="tooltip" data-placement="top"
-                           title="ADD Role to User">
+                           title="ADD Booking {{ $counter }}">
                             <i class="fas fa-plus-square p-1"></i>
-                            Add Role to User
+                            Add Booking
                         </a>
                     </th>
                 </tr>
                 </thead>
                 <tbody>
-                @forelse ($users_roles as $user_role)
+                @forelse ($bookings as $booking)
                     <tr>
                         <td>
                             #{{ $counter++ }}
                         </td>
                         <td>
                             <a>
-                                {{ $user_role->name }}
+                                {{ $booking->room->number }} {{ $booking->room->roomType->name }}
+                            </a>
+                            <br/>
+                            <small>
+                                Created {{ $booking->room->created_at }}
+                            </small>
+                        </td>
+                        <td>
+                            <a>
+                                {{ $booking->user_model()->name }}
                             </a>
                         </td>
                         <td>
                             <a>
-                                {{ $user_role->id }}
+                                {{ date('F d, Y', strtotime($booking->start)) }}
                             </a>
                         </td>
                         <td>
                             <a>
-                                @foreach($roles=$user_role->roles()->get() as $role)
-                                    {{--{{ ucfirst(trans($role->name.'-')) }}--}}
-                                    {{ ucfirst($role->name) }}
-                                    @if(!$loop->last)
-                                        {{ ',' }}
-                                    @endif
-                                    {{--{{ $loop->first ? '' : ', ' }}--}}
-                                @endforeach
+                                {{ date('F d, Y', strtotime($booking->end)) }}
                             </a>
                         </td>
                         <td>
-                            {{ $user_role->created_at }}
+                            <a>
+                                {{ $booking->is_reservation ? 'Yes' : 'No' }}
+                            </a>
                         </td>
                         <td>
-                            {{ $user_role->updated_at }}
+                            <a>
+                                {{ $booking->is_paid ? 'Yes' : 'No' }}
+                            </a>
+                        </td>
+                        <td>
+                            <a>
+                                {{ (strtotime($booking->start) < time()) ? 'Yes' : 'No' }}
+                            </a>
+                        </td>
+                        <td>
+                            <a>
+                                {{ (strtotime($booking->end) < time()) ? 'Yes' : 'No' }}
+                            </a>
+                        </td>
+                        <td>
+                            <a>
+                                {{ date('F d, Y', strtotime($booking->created_at)) }}
+                            </a>
                         </td>
                         <td class="project-actions text-right">
-                            <a class="btn btn-primary btn-sm" target="_blank"
-                               href="{{ route('dashboard.users.roles.show',$user_role->id) }}"
+                            <a class="btn btn-primary btn-sm"
+                               {{--href="{{ route('dashboard.bookings.show',$booking->id) }}"--}}
+                               {{--OR--}}
+                               href="{{ route('dashboard.bookings.show',['booking' => $booking->id]) }}"
                                data-toggle="tooltip" data-placement="top"
-                               title="View User Role {{ $counter-1 }}">
+                               title="View Booking {{ $counter-1 }}">
                                 <i class="fas fa-external-link-alt"></i>
                                 View
                             </a>
                             <a class="btn btn-info btn-sm"
-                               href="{{ route('dashboard.users.roles.edit',$user_role->id) }}"
+                               href="{{ route('dashboard.bookings.edit',['booking' => $booking->id]) }}"
                                data-toggle="tooltip" data-placement="top"
-                               title="Edit User Role {{ $counter-1 }}">
+                               title="Edit Booking {{ $counter-1 }}">
                                 <i class="fas fa-pencil-alt"></i>
                                 Edit
                             </a>
                             <form class="btn btn-danger btn-sm m-0"
-                                  action="{{ route('dashboard.users.roles.destroy', ['role' => $user_role->id]) }}"
+                                  action="{{ route('dashboard.bookings.destroy', ['booking' => $booking->id]) }}"
                                   method="POST">
-                                @method('DELETE')
                                 @csrf
-                                <input name="_token" type="hidden" value="{{ csrf_token() }}"/>
+                                @method('DELETE')
+                                {{ csrf_field() }}
                                 <i class="fas fa-trash-alt">
                                 </i>
                                 <input name="delete" type="submit" class="btn btn-danger btn-sm p-0"
                                        value="Delete"
                                        data-toggle="tooltip" data-placement="top"
-                                       title="Delete User Role {{ $counter-1 }}">
+                                       title="Delete Booking {{ $counter-1 }}">
                             </form>
                         </td>
                     </tr>
@@ -123,13 +140,14 @@
             </table>
         </div>
         <!-- /.card-body -->
+
         <div class="card-footer w-100 m-0 pt-sm-2 pr-sm-2 pl-sm-1 bg-light">
             <div class="d-block p-2">
                 <ul class="pagination m-auto d-flex justify-content-center float-right ">
-                    {!! $users_roles->links('vendor.pagination.custom') !!}
+                    {!! $bookings->links('vendor.pagination.custom') !!}
                 </ul>
             </div>
             <!-- /.card-footer -->
+
         </div>
-    </div>
 @endsection

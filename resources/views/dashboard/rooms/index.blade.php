@@ -5,6 +5,7 @@
 
 @endsection
 @section('content')
+    {{--Update Status--}}
     @include('dashboard.status.status')
     <div class="card p-2">
         <div class="card-header">

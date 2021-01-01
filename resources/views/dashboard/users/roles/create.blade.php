@@ -38,6 +38,7 @@
                     <span class="text-sm text-danger">{{ $message }}</span>
                     @enderror
                 </div>
+                {{--Select Role For User Checkbox input--}}
                 <div class="form-group">
                     <label>Select Roles :</label><br>
                     <div class="row">
