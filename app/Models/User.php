@@ -9,10 +9,11 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Passport\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable, HasTimestamps, SoftDeletes;
+    use HasFactory, Notifiable, HasTimestamps, HasApiTokens, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
