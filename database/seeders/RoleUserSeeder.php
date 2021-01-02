@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\RoleUser;
 use Illuminate\Database\Seeder;
 
 class RoleUserSeeder extends Seeder
@@ -11,8 +12,8 @@ class RoleUserSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
-        //
+        RoleUser::factory()->count(12)->create();
     }
 }

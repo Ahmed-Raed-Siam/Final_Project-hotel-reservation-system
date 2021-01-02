@@ -3,7 +3,9 @@
 namespace Database\Factories;
 
 use App\Models\BookingUser;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Facades\DB;
 
 class BookingUserFactory extends Factory
 {
@@ -19,10 +21,12 @@ class BookingUserFactory extends Factory
      *
      * @return array
      */
-    public function definition()
+    public function definition(): array
     {
+        $booking_id = DB::table('bookings')->max('id');
         return [
-            //
+            'booking_id' => $this->faker->unique()->numberBetween(1, $booking_id),
+            'user_id' => User::all()->random(),
         ];
     }
 }

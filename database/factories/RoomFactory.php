@@ -25,14 +25,13 @@ class RoomFactory extends Factory
     {
         //$roomTypes = DB::table('room_types')->pluck('id')->all();
         // OR
-        //$roomTypes_max=DB::table('room_types')->max('id');
+        $roomTypes_max = DB::table('room_types')->max('id');
         return [
-            'name' => $this->faker->word,
             'number' => $this->faker->unique()->randomNumber(),
 //            'room_type_id' => $this->faker->randomElement($roomTypes),
 //            'room_type_id' => $this->faker->unique()->numberBetween(1, DB::table('room_types')->max('id')),
-//            'room_type_id' => $this->faker->unique()->numberBetween(1, $roomTypes_max),
-            'room_type_id' => RoomType::all()->random(),
+            'room_type_id' => $this->faker->unique()->numberBetween(1, $roomTypes_max),
+//            'room_type_id' => RoomType::all()->random(),
         ];
     }
 }

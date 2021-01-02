@@ -19,5 +19,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::get('test', function () {
-    return "<h1>My name is Ahmed Raed Siam - <small>120170736</small></h1>";
+    return "<b>My name is Ahmed Raed Siam - <small>120170736</small><i>V1</i></b>";
 });

@@ -19,10 +19,12 @@ class DiscountFactory extends Factory
      *
      * @return array
      */
-    public function definition()
+    public function definition(): array
     {
         return [
-            //
+            'name' => $this->faker->word,
+            'code' => strtoupper($this->faker->lexify('??????????????')),
+            'discount' => $this->faker->randomNumber(4),
         ];
     }
 }

@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Discount;
 use Illuminate\Database\Seeder;
 
 class DiscountSeeder extends Seeder
@@ -11,8 +12,8 @@ class DiscountSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
-        //
+        Discount::factory()->count(15)->create();
     }
 }

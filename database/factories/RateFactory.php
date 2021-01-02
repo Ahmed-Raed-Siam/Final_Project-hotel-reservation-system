@@ -3,7 +3,9 @@
 namespace Database\Factories;
 
 use App\Models\Rate;
+use App\Models\RoomType;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Facades\DB;
 
 class RateFactory extends Factory
 {
@@ -19,10 +21,13 @@ class RateFactory extends Factory
      *
      * @return array
      */
-    public function definition()
+    public function definition(): array
     {
+//        $roomTypes_max = DB::table('room_types')->max('id');
         return [
-            //
+            'value' => $this->faker->word,
+            'room_type_id' => $this->faker->unique()->numberBetween(DB::table('room_types')->max('id')),
+            'is_weekend' => $this->faker->boolean(),
         ];
     }
 }

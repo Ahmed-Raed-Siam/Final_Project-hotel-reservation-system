@@ -4,6 +4,8 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class HotelSeeder extends Seeder
 {
@@ -14,12 +16,49 @@ class HotelSeeder extends Seeder
      */
     public function run(): void
     {
+        // Create Admin role
+        DB::table('roles')->insert([
+            'name' => 'admin',
+            'created_at' => date('Y-m-d H:i:s'),
+            'updated_at' => date('Y-m-d H:i:s'),
+        ]);
+
+        // Create User role
+        DB::table('roles')->insert([
+            'name' => 'user',
+            'created_at' => date('Y-m-d H:i:s'),
+            'updated_at' => date('Y-m-d H:i:s'),
+        ]);
+
+        // Create The main users
+        DB::table('users')->insert([
+            'name' => 'ahmed raed siam',
+            'email' => 'ahmedraedsiam@hotmail.com',
+            'email_verified_at' => now(),
+            'password' => Hash::make('123456789'), // password
+            'remember_token' => Str::random(10),
+            'created_at' => date('Y-m-d H:i:s'),
+            'updated_at' => date('Y-m-d H:i:s'),
+        ]);
+
+        $admin_role_id = DB::table('roles')->first()->id;
+        $my_id = DB::table('users')->first()->id;
+
+        // Attach User to Role in UserRoles Table
+        DB::table('role_users')->insert([
+            'user_id' => $admin_role_id,
+            'role_id' => $my_id,
+            'created_at' => date('Y-m-d H:i:s'),
+            'updated_at' => date('Y-m-d H:i:s'),
+        ]);
+
         DB::table('room_types')->insert([
             'name' => 'Double Queen',
             'description' => 'Double Queen Beds',
             'created_at' => date('Y-m-d H:i:s'),
             'updated_at' => date('Y-m-d H:i:s'),
         ]);
+
         DB::table('room_types')->insert([
             'name' => 'Single King',
             'description' => 'Single King Bed',

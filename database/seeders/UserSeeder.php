@@ -2,10 +2,10 @@
 
 namespace Database\Seeders;
 
-use App\Models\Rate;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 
-class RateSeeder extends Seeder
+class UserSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -14,6 +14,6 @@ class RateSeeder extends Seeder
      */
     public function run(): void
     {
-        Rate::factory()->count(10)->create();
+        User::factory()->count(12)->create();
     }
 }
