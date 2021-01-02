@@ -21,8 +21,10 @@ class DatabaseSeeder extends Seeder
         $this->call(RoomTypeSeeder::class);
         $this->call(RoomSeeder::class);
         $this->call(DiscountSeeder::class);
-        $this->call(RateSeeder::class);
-        $this->call(BookingSeeder::class);
-        $this->call(BookingUserSeeder::class);
+        /*RateSeeder Should Run Alone After all*/
+//        $this->call(RateSeeder::class);
+        /*BookingSeeder Should Run Alone After all Not Ready*/
+//        $this->call(BookingSeeder::class);
+//        $this->call(BookingUserSeeder::class);
     }
 }

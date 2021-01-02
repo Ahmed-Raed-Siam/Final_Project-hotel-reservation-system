@@ -23,10 +23,11 @@ class RateFactory extends Factory
      */
     public function definition(): array
     {
-//        $roomTypes_max = DB::table('room_types')->max('id');
+//        $roomTypes = RoomType::all()->sortBy;
+        $roomTypes_max = DB::table('room_types')->max('id');
         return [
-            'value' => $this->faker->word,
-            'room_type_id' => $this->faker->unique()->numberBetween(DB::table('room_types')->max('id')),
+            'value' => $this->faker->randomNumber(2),
+            'room_type_id' => $this->faker->unique()->numberBetween(1, $roomTypes_max),
             'is_weekend' => $this->faker->boolean(),
         ];
     }

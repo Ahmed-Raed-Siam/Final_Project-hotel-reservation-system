@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\Booking;
 use App\Models\Room;
+use Carbon\Traits\Date;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -24,24 +25,27 @@ class BookingFactory extends Factory
      */
     public function definition(): array
     {
-//        $rooms = DB::table('rooms')->get();
-        // OR
-        $rooms = Room::all()->random();
+        $rooms = Room::all();
+        $rooms_max = DB::table('rooms')->max('id');
+        $date = now();
+        $startingDate = $date;
+        $endingDate = $date->addWeeks(2);
 
-        $year = random_int(1980, 2030);
-        $month = random_int(1, 12);
-        $day = random_int(1, 28);
-
-        $date = Carbon::create($year, $month, $day, 0, 0, 0);
-        $start = $date->format('Y-m-d H:i:s');
-        $end = $date->addWeeks(random_int(1, 52))->format('Y-m-d H:i:s');
         return [
             'room_id' => $rooms,
-            'start' => $start,
-            'end' => $end,
+            'start' => $startingDate,
+            'end' => $endingDate,
             'is_reservation' => $this->faker->boolean(),
             'is_paid' => $this->faker->boolean(),
             'notes' => $this->faker->sentences,
         ];
     }
 }
+
+
+/*'room_id' => $rooms,
+            'start' => $startingDate,
+            'end' => $endingDate,
+            'is_reservation' => $this->faker->boolean(),
+            'is_paid' => $this->faker->boolean(),
+            'notes' => $this->faker->sentences,*/
