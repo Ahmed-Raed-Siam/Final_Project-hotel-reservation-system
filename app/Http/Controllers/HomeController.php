@@ -24,6 +24,7 @@ class HomeController extends Controller
      */
     public function index(): Renderable
     {
-        return view('home');
+//        return view('home');
+        return view('frontSite.home');
     }
 }

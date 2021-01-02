@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Dashboard\BookingController;
 use App\Http\Controllers\Dashboard\DashboardController;
 use App\Http\Controllers\Dashboard\RoleController;
 use App\Http\Controllers\Dashboard\RoomController;
@@ -8,6 +9,7 @@ use App\Http\Controllers\Dashboard\RoomTypeTrashController;
 use App\Http\Controllers\Dashboard\UserController;
 use App\Http\Controllers\Dashboard\UserRoleController;
 use App\Http\Controllers\Dashboard\UserTrashController;
+use App\Http\Controllers\FrontSite\FrontSiteController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -23,13 +25,18 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
+/*Route::get('/', function () {
     return view('welcome');
-});
+});*/
+
 
 Auth::routes();
-
-Route::get('/home', [HomeController::class, 'index'])->name('home');
+/*--NEW--*/
+Route::get('/', [FrontSiteController::class, 'showHome'])->name('frontSite.home');
+Route::get('blog', [FrontSiteController::class, 'showBlog'])->name('frontSite.blog');
+Route::get('single', [FrontSiteController::class, 'showSingle'])->name('frontSite.single');
+Route::get('contact', [FrontSiteController::class, 'showContact'])->name('frontSite.contact');
+//Route::get('/home', [HomeController::class, 'index'])->name('home');
 
 Route::name('dashboard.')->middleware('auth')->prefix('dashboard')->group(function () {
     Route::get('/', [DashboardController::class, 'index']);
@@ -58,6 +65,6 @@ Route::name('dashboard.')->middleware('auth')->prefix('dashboard')->group(functi
     Route::resource('roles', RoleController::class);
     Route::name('rooms')->resource('rooms/types', RoomTypeController::class);
     Route::resource('rooms', RoomController::class);
-    Route::resource('bookings', \App\Http\Controllers\Dashboard\BookingController::class);
+    Route::resource('bookings', BookingController::class);
 
 });
